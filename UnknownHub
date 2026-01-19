@@ -1,531 +1,266 @@
--- Unknown Hub
+pcall(function()
+
+    game.CoreGui:FindFirstChild("UCT_UI"):Destroy()
+
+end)
+
 local Players = game:GetService("Players")
+
 local RunService = game:GetService("RunService")
+
 local UserInputService = game:GetService("UserInputService")
 
-local player = Players.LocalPlayer
+local Workspace = game:GetService("Workspace")
 
-local mainGui = Instance.new("ScreenGui")
-mainGui.Name = "UnknownHub"
-mainGui.ResetOnSpawn = false
+local ProximityPromptService = game:GetService("ProximityPromptService")
 
-pcall(function()
-	if syn and syn.protect_gui then
-		syn.protect_gui(mainGui)
-	elseif protectgui then
-		protectgui(mainGui)
-	end
-end)
+local LocalPlayer = Players.LocalPlayer
 
-mainGui.Parent = gethui() or player:WaitForChild("PlayerGui")
+local gui = Instance.new("ScreenGui", game.CoreGui)
 
-local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 180, 0, 250)
-frame.Position = UDim2.new(0, 20, 0, 20)
-frame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
-frame.BorderSizePixel = 0
-frame.Active = true
-frame.Parent = mainGui
+gui.Name = "UCT_UI"
 
-local corner = Instance.new("UICorner")
-corner.CornerRadius = UDim.new(0, 10)
-corner.Parent = frame
+gui.ResetOnSpawn = false
 
-local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1, 0, 0, 30)
-title.BackgroundTransparency = 1
+local main = Instance.new("Frame", gui)
+
+main.Size = UDim2.new(0, 260, 0, 120)
+
+main.Position = UDim2.new(1, -280, 0, 120)
+
+main.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+
+main.BorderSizePixel = 0
+
+main.Active = true
+
+main.Draggable = true
+
+Instance.new("UICorner", main).CornerRadius = UDim.new(0, 8)
+
+local stroke = Instance.new("UIStroke", main)
+
+stroke.Color = Color3.fromRGB(255, 50, 50)
+
+stroke.Thickness = 2
+
+-- Título con RGB
+
+local title = Instance.new("TextLabel", main)
+
 title.Text = "Unknown Hub"
-title.TextColor3 = Color3.fromRGB(255, 100, 100)
-title.Font = Enum.Font.GothamBold
-title.TextSize = 18
-title.Parent = frame
 
-local speedToggle = Instance.new("TextButton")
-speedToggle.Size = UDim2.new(0.8, 0, 0, 25)
-speedToggle.Position = UDim2.new(0.1, 0, 0.14, 0)
-speedToggle.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
-speedToggle.Text = "SPEED: OFF [Q]"
-speedToggle.TextColor3 = Color3.fromRGB(255,255,255)
-speedToggle.Font = Enum.Font.GothamBold
-speedToggle.TextSize = 11
-speedToggle.Parent = frame
+title.Font = Enum.Font.FredokaOne
 
-local baseToggle = Instance.new("TextButton")
-baseToggle.Size = UDim2.new(0.8, 0, 0, 25)
-baseToggle.Position = UDim2.new(0.1, 0, 0.25, 0)
-baseToggle.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
-baseToggle.Text = "BASE: OFF [E]"
-baseToggle.TextColor3 = Color3.fromRGB(255,255,255)
-baseToggle.Font = Enum.Font.GothamBold
-baseToggle.TextSize = 11
-baseToggle.Parent = frame
+title.TextColor3 = Color3.fromRGB(255, 0, 0)
 
-local batToggle = Instance.new("TextButton")
-batToggle.Size = UDim2.new(0.8, 0, 0, 25)
-batToggle.Position = UDim2.new(0.1, 0, 0.36, 0)
-batToggle.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
-batToggle.Text = "BAT: OFF [R]"
-batToggle.TextColor3 = Color3.fromRGB(255,255,255)
-batToggle.Font = Enum.Font.GothamBold
-batToggle.TextSize = 11
-batToggle.Parent = frame
+title.TextSize = 16
 
-local medusaToggle = Instance.new("TextButton")
-medusaToggle.Size = UDim2.new(0.8, 0, 0, 25)
-medusaToggle.Position = UDim2.new(0.1, 0, 0.47, 0)
-medusaToggle.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
-medusaToggle.Text = "MEDUSA: OFF [F]"
-medusaToggle.TextColor3 = Color3.fromRGB(255,255,255)
-medusaToggle.Font = Enum.Font.GothamBold
-medusaToggle.TextSize = 11
-medusaToggle.Parent = frame
+title.BackgroundTransparency = 1
 
-local auraToggle = Instance.new("TextButton")
-auraToggle.Size = UDim2.new(0.8, 0, 0, 25)
-auraToggle.Position = UDim2.new(0.1, 0, 0.58, 0)
-auraToggle.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
-auraToggle.Text = "AURA: OFF [G]"
-auraToggle.TextColor3 = Color3.fromRGB(255,255,255)
-auraToggle.Font = Enum.Font.GothamBold
-auraToggle.TextSize = 11
-auraToggle.Parent = frame
+title.Size = UDim2.new(1, -30, 0, 26)
 
-local medusaAuraToggle = Instance.new("TextButton")
-medusaAuraToggle.Size = UDim2.new(0.8, 0, 0, 25)
-medusaAuraToggle.Position = UDim2.new(0.1, 0, 0.69, 0)
-medusaAuraToggle.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
-medusaAuraToggle.Text = "M AURA: OFF [H]"
-medusaAuraToggle.TextColor3 = Color3.fromRGB(255,255,255)
-medusaAuraToggle.Font = Enum.Font.GothamBold
-medusaAuraToggle.TextSize = 11
-medusaAuraToggle.Parent = frame
+title.Position = UDim2.new(0, 10, 0, 6)
 
-local fpsButton = Instance.new("TextButton")
-fpsButton.Size = UDim2.new(0.8, 0, 0, 25)
-fpsButton.Position = UDim2.new(0.1, 0, 0.80, 0)
-fpsButton.BackgroundColor3 = Color3.fromRGB(100, 100, 180)
-fpsButton.Text = "ANTI LAG"
-fpsButton.TextColor3 = Color3.fromRGB(255,255,255)
-fpsButton.Font = Enum.Font.GothamBold
-fpsButton.TextSize = 12
-fpsButton.Parent = frame
+title.TextXAlignment = Enum.TextXAlignment.Left
 
-local discord = Instance.new("TextButton")
-discord.Size = UDim2.new(0.9, 0, 0, 18)
-discord.Position = UDim2.new(0.05, 0, 0.93, 0)
-discord.BackgroundTransparency = 1
-discord.Text = "discord.gg/Tz54xwc3fc"
-discord.TextColor3 = Color3.fromRGB(150, 180, 255)
-discord.Font = Enum.Font.Gotham
-discord.TextSize = 10
-discord.Parent = frame
+-- Animación RGB del título
 
-for _, btn in ipairs({speedToggle, baseToggle, batToggle, medusaToggle, auraToggle, medusaAuraToggle, fpsButton}) do
-	local btnCorner = Instance.new("UICorner")
-	btnCorner.CornerRadius = UDim.new(0, 5)
-	btnCorner.Parent = btn
-end
+task.spawn(function()
 
-local speedEnabled = false
-local baseEnabled = false
-local batEnabled = false
-local medusaEnabled = false
-local auraEnabled = false
-local medusaAuraEnabled = false
-local currentBat = nil
-local lastBatName = ""
-local SPEED = 29
-local BASE_SPEED = 55
-local aura = nil
-local medusaAura = nil
+    local hue = 0
 
-local dragging = false
-local dragStart
-local startPos
+    while title.Parent do
 
-local function updateDrag(input)
-	if dragging then
-		local delta = input.Position - dragStart
-		frame.Position = UDim2.new(
-			startPos.X.Scale,
-			startPos.X.Offset + delta.X,
-			startPos.Y.Scale,
-			startPos.Y.Offset + delta.Y
-		)
-	end
-end
+        hue = (hue + 0.01) % 1
 
-title.InputBegan:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-		dragging = true
-		dragStart = input.Position
-		startPos = frame.Position
-		frame.BackgroundTransparency = 0.3
-		
-		input.Changed:Connect(function()
-			if input.UserInputState == Enum.UserInputState.End then
-				dragging = false
-				frame.BackgroundTransparency = 0
-			end
-		end)
-	end
+        title.TextColor3 = Color3.fromHSV(hue, 1, 1)
+
+        task.wait(0.05)
+
+    end
+
 end)
 
-UserInputService.InputChanged:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-		updateDrag(input)
-	end
+-- Botón de cerrar
+
+local close = Instance.new("TextButton", main)
+
+close.Text = "X"
+
+close.Font = Enum.Font.FredokaOne
+
+close.TextSize = 16
+
+close.TextColor3 = Color3.fromRGB(255, 60, 60)
+
+close.BackgroundTransparency = 1
+
+close.Size = UDim2.new(0, 25, 0, 25)
+
+close.Position = UDim2.new(1, -28, 0, 6)
+
+close.MouseButton1Click:Connect(function()
+
+    main.Visible = not main.Visible
+
 end)
 
-local function findBat()
-	local backpack = player:FindFirstChild("Backpack")
-	if not backpack then return nil end
-	
-	for _, tool in ipairs(backpack:GetChildren()) do
-		if tool:IsA("Tool") then
-			local nameLower = tool.Name:lower()
-			if nameLower:find("bat") then
-				return tool
-			end
-		end
-	end
-	
-	return nil
+-- TOGGLE CREATOR
+
+local function createToggle(parent, text, y)
+
+    local holder = Instance.new("Frame", parent)
+
+    holder.Size = UDim2.new(1, -20, 0, 38)
+
+    holder.Position = UDim2.new(0, 10, 0, y)
+
+    holder.BackgroundTransparency = 1
+
+    local label = Instance.new("TextLabel", holder)
+
+    label.Text = text
+
+    label.Font = Enum.Font.FredokaOne
+
+    label.TextColor3 = Color3.fromRGB(255,255,255)
+
+    label.TextSize = 15
+
+    label.BackgroundTransparency = 1
+
+    label.Size = UDim2.new(1, -60, 1, 0)
+
+    label.TextXAlignment = Enum.TextXAlignment.Left
+
+    local toggle = Instance.new("Frame", holder)
+
+    toggle.Size = UDim2.new(0, 36, 0, 18)
+
+    toggle.Position = UDim2.new(1, -46, 0.5, -9)
+
+    toggle.BackgroundColor3 = Color3.fromRGB(60,60,60)
+
+    Instance.new("UICorner", toggle).CornerRadius = UDim.new(1,0)
+
+    local dot = Instance.new("Frame", toggle)
+
+    dot.Size = UDim2.new(0, 14, 0, 14)
+
+    dot.Position = UDim2.new(0, 2, 0.5, -7)
+
+    dot.BackgroundColor3 = Color3.fromRGB(255,50,50)
+
+    Instance.new("UICorner", dot).CornerRadius = UDim.new(1,0)
+
+    local state = false
+
+    toggle.InputBegan:Connect(function(i)
+
+        if i.UserInputType == Enum.UserInputType.MouseButton1 or i.UserInputType == Enum.UserInputType.Touch then
+
+            state = not state
+
+            if state then
+
+                dot:TweenPosition(UDim2.new(1, -16, 0.5, -7),"Out","Sine",0.12,true)
+
+                dot.BackgroundColor3 = Color3.fromRGB(0,255,120)
+
+            else
+
+                dot:TweenPosition(UDim2.new(0, 2, 0.5, -7),"Out","Sine",0.12,true)
+
+                dot.BackgroundColor3 = Color3.fromRGB(255,50,50)
+
+            end
+
+        end
+
+    end)
+
+    return function()
+
+        return state
+
+    end
+
 end
 
-local function equipBat()
-	local bat = findBat()
-	if bat then
-		bat.Parent = player.Character
-		return bat
-	end
-	return nil
+-- TOGGLES
+
+local Booster = createToggle(main,"Booster",40)
+
+local AutoGrab = createToggle(main,"Auto Grab",80)
+
+-- AUTO GRAB LOGIC
+
+local ControlTable = {AutoSteal = false}
+
+local promptConnections = {}
+
+local function disconnectPrompts()
+
+    for _,c in pairs(promptConnections) do c:Disconnect() end
+
+    promptConnections = {}
+
 end
 
-local function removeFpsDevourers(character)
-	for _, v in pairs(character:GetDescendants()) do
-		if v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("ShirtGraphic") or v:IsA("CharacterMesh") then
-			v:Destroy()
-		elseif v:IsA("BodyColors") then
-			v:Destroy()
-		elseif v:IsA("Decal") and v.Parent.Name == "Head" then
-			v:Destroy()
-		end
-	end
+local function onPrompt(prompt)
+
+    if ControlTable.AutoSteal and prompt and prompt:IsA("ProximityPrompt") then
+
+        if prompt.ActionText and prompt.ActionText:lower():find("steal") then
+
+            prompt:InputHoldBegin()
+
+        end
+
+    end
+
 end
 
-local function createAura()
-	if aura then aura:Destroy() end
-	
-	aura = Instance.new("Part")
-	aura.Shape = Enum.PartType.Cylinder
-	aura.Size = Vector3.new(0.5, 10, 10)
-	aura.Material = Enum.Material.Neon
-	aura.Color = Color3.fromRGB(255, 0, 0)
-	aura.Transparency = 0.7
-	aura.Anchored = true
-	aura.CanCollide = false
-	aura.Parent = workspace
+local function enableAutoGrab()
+
+    disconnectPrompts()
+
+    table.insert(promptConnections,
+
+        ProximityPromptService.PromptShown:Connect(onPrompt)
+
+    )
+
+    for _,p in ipairs(Workspace:GetDescendants()) do
+
+        if p:IsA("ProximityPrompt") then
+
+            onPrompt(p)
+
+        end
+
+    end
+
 end
 
-local function createMedusaAura()
-	if medusaAura then medusaAura:Destroy() end
-	
-	medusaAura = Instance.new("Part")
-	medusaAura.Shape = Enum.PartType.Cylinder
-	medusaAura.Size = Vector3.new(0.5, 30, 30)
-	medusaAura.Material = Enum.Material.Neon
-	medusaAura.Color = Color3.fromRGB(0, 255, 0)
-	medusaAura.Transparency = 0.8
-	medusaAura.Anchored = true
-	medusaAura.CanCollide = false
-	medusaAura.Parent = workspace
+local function disableAutoGrab()
+
+    disconnectPrompts()
+
 end
+-- MAI
 
-local function activateMedusa()
-	if not medusaEnabled then return end
-	
-	local character = player.Character
-	if not character then return end
-	
-	local tool = character:FindFirstChildOfClass("Tool")
-	if tool and tool.Name:lower():find("medusa") then
-		for _, otherPlayer in pairs(Players:GetPlayers()) do
-			if otherPlayer ~= player and otherPlayer.Character then
-				local otherHRP = otherPlayer.Character:FindFirstChild("HumanoidRootPart")
-				local myHRP = character:FindFirstChild("HumanoidRootPart")
-				if otherHRP and myHRP then
-					local distance = (otherHRP.Position - myHRP.Position).Magnitude
-					if distance <= 25 then
-						tool:Activate()
-						local remote = tool:FindFirstChildOfClass("RemoteEvent")
-						if remote then
-							pcall(function()
-								remote:FireServer()
-							end)
-						end
-						break
-					end
-				end
-			end
-		end
-	end
-end
+    -- Auto Grab
 
-local function toggleSpeed()
-	speedEnabled = not speedEnabled
-	baseEnabled = false
-	baseToggle.Text = "BASE: OFF [E]"
-	baseToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
-	
-	if speedEnabled then
-		speedToggle.Text = "SPEED: ON [Q]"
-		speedToggle.BackgroundColor3 = Color3.fromRGB(50,180,50)
-	else
-		speedToggle.Text = "SPEED: OFF [Q]"
-		speedToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
-	end
-end
+    ControlTable.AutoSteal = AutoGrab()
 
-local function toggleBase()
-	baseEnabled = not baseEnabled
-	speedEnabled = false
-	speedToggle.Text = "SPEED: OFF [Q]"
-	speedToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
-	
-	if baseEnabled then
-		baseToggle.Text = "BASE: ON [E]"
-		baseToggle.BackgroundColor3 = Color3.fromRGB(50,180,50)
-	else
-		baseToggle.Text = "BASE: OFF [E]"
-		baseToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
-	end
-end
+    if ControlTable.AutoSteal then
 
-local function toggleBat()
-	batEnabled = not batEnabled
-	
-	if batEnabled then
-		currentBat = equipBat()
-		if currentBat then
-			lastBatName = currentBat.Name:lower()
-			batToggle.Text = "BAT: ON [R]"
-		else
-			batToggle.Text = "BAT: NO BAT [R]"
-		end
-		batToggle.BackgroundColor3 = Color3.fromRGB(50,180,50)
-	else
-		batToggle.Text = "BAT: OFF [R]"
-		batToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
-		currentBat = nil
-		lastBatName = ""
-	end
-end
+        enableAutoGrab()
 
-local function toggleMedusa()
-	medusaEnabled = not medusaEnabled
-	
-	if medusaEnabled then
-		medusaToggle.Text = "MEDUSA: ON [F]"
-		medusaToggle.BackgroundColor3 = Color3.fromRGB(50,180,50)
-	else
-		medusaToggle.Text = "MEDUSA: OFF [F]"
-		medusaToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
-	end
-end
+    else
 
-local function toggleAura()
-	auraEnabled = not auraEnabled
-	
-	if auraEnabled then
-		createAura()
-		auraToggle.Text = "AURA: ON [G]"
-		auraToggle.BackgroundColor3 = Color3.fromRGB(50,180,50)
-	else
-		auraToggle.Text = "AURA: OFF [G]"
-		auraToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
-		if aura then
-			aura:Destroy()
-			aura = nil
-		end
-	end
-end
+        disableAutoGrab()
 
-local function toggleMedusaAura()
-	medusaAuraEnabled = not medusaAuraEnabled
-	
-	if medusaAuraEnabled then
-		createMedusaAura()
-		medusaAuraToggle.Text = "M AURA: ON [H]"
-		medusaAuraToggle.BackgroundColor3 = Color3.fromRGB(50,180,50)
-	else
-		medusaAuraToggle.Text = "M AURA: OFF [H]"
-		medusaAuraToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
-		if medusaAura then
-			medusaAura:Destroy()
-			medusaAura = nil
-		end
-	end
-end
-
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-	if gameProcessed then return end
-	
-	if input.KeyCode == Enum.KeyCode.Q then
-		toggleSpeed()
-	elseif input.KeyCode == Enum.KeyCode.E then
-		toggleBase()
-	elseif input.KeyCode == Enum.KeyCode.R then
-		toggleBat()
-	elseif input.KeyCode == Enum.KeyCode.F then
-		toggleMedusa()
-	elseif input.KeyCode == Enum.KeyCode.G then
-		toggleAura()
-	elseif input.KeyCode == Enum.KeyCode.H then
-		toggleMedusaAura()
-	end
-end)
-
-player.CharacterAdded:Connect(function(character)
-	character.DescendantAdded:Connect(function(descendant)
-		if descendant:IsA("Model") and descendant.Name:lower():find("medusa") then
-			task.wait(0.2)
-			activateMedusa()
-		end
-	end)
-	if batEnabled then
-		batEnabled = false
-		batToggle.Text = "BAT: OFF [R]"
-		batToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
-		currentBat = nil
-		lastBatName = ""
-	end
-	if auraEnabled then
-		createAura()
-	end
-	if medusaAuraEnabled then
-		createMedusaAura()
-	end
-end)
-
-if player.Character then
-	player.Character.DescendantAdded:Connect(function(descendant)
-		if descendant:IsA("Model") and descendant.Name:lower():find("medusa") then
-			task.wait(0.2)
-			activateMedusa()
-		end
-	end)
-end
-
-RunService.Heartbeat:Connect(function()
-	local char = player.Character
-	if not char then return end
-	
-	local hum = char:FindFirstChildOfClass("Humanoid")
-	local hrp = char:FindFirstChild("HumanoidRootPart")
-	if not hum or not hrp then return end
-	
-	if auraEnabled and aura then
-		aura.CFrame = hrp.CFrame * CFrame.new(0, 0, -5) * CFrame.Angles(0, 0, math.rad(90))
-	elseif aura then
-		aura.CFrame = CFrame.new(0, -999, 0)
-	end
-	
-	if medusaAuraEnabled and medusaAura then
-		medusaAura.CFrame = hrp.CFrame * CFrame.Angles(0, 0, math.rad(90))
-	elseif medusaAura then
-		medusaAura.CFrame = CFrame.new(0, -999, 0)
-	end
-	
-	if speedEnabled and hum.MoveDirection.Magnitude > 0 and not batEnabled then
-		hrp.Velocity = Vector3.new(
-			hum.MoveDirection.X * SPEED,
-			hrp.Velocity.Y,
-			hum.MoveDirection.Z * SPEED
-		)
-	end
-	
-	if baseEnabled and hum.MoveDirection.Magnitude > 0 and not batEnabled then
-		hrp.Velocity = Vector3.new(
-			hum.MoveDirection.X * BASE_SPEED,
-			hrp.Velocity.Y,
-			hum.MoveDirection.Z * BASE_SPEED
-		)
-	end
-	
-	if batEnabled then
-		if not currentBat or not currentBat:IsDescendantOf(char) then
-			if lastBatName ~= "" then
-				local backpack = player:FindFirstChild("Backpack")
-				if backpack then
-					for _, tool in ipairs(backpack:GetChildren()) do
-						if tool:IsA("Tool") and tool.Name:lower():find("bat") then
-							currentBat = tool
-							currentBat.Parent = char
-							break
-						end
-					end
-				end
-			else
-				currentBat = equipBat()
-				if currentBat then
-					lastBatName = currentBat.Name:lower()
-				end
-			end
-		end
-		
-		if currentBat and currentBat:IsDescendantOf(char) then
-			currentBat:Activate()
-			
-			local remote = currentBat:FindFirstChildOfClass("RemoteEvent")
-			if remote then
-				pcall(function()
-					remote:FireServer()
-				end)
-			end
-		end
-	end
-end)
-
-speedToggle.MouseButton1Click:Connect(toggleSpeed)
-baseToggle.MouseButton1Click:Connect(toggleBase)
-batToggle.MouseButton1Click:Connect(toggleBat)
-medusaToggle.MouseButton1Click:Connect(toggleMedusa)
-auraToggle.MouseButton1Click:Connect(toggleAura)
-medusaAuraToggle.MouseButton1Click:Connect(toggleMedusaAura)
-
-fpsButton.MouseButton1Click:Connect(function()
-	for _, p in pairs(Players:GetPlayers()) do
-		if p.Character then
-			removeFpsDevourers(p.Character)
-		end
-	end
-	
-	Players.PlayerAdded:Connect(function(p)
-		p.CharacterAdded:Connect(function(character)
-			task.wait(0.5)
-			removeFpsDevourers(character)
-		end)
-	end)
-	
-	for _, p in pairs(Players:GetPlayers()) do
-		p.CharacterAdded:Connect(function(character)
-			task.wait(0.5)
-			removeFpsDevourers(character)
-		end)
-	end
-	
-	fpsButton.Text = "APPLIED"
-	task.wait(1)
-	fpsButton.Text = "ANTI LAG"
-end)
-
-discord.MouseButton1Click:Connect(function()
-	pcall(function()
-		setclipboard("https://discord.gg/Tz54xwc3fc")
-	end)
-	local original = discord.Text
-	discord.Text = "COPIED!"
-	task.wait(1)
-	discord.Text = original
-end)
+    end
