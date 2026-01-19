@@ -44,60 +44,60 @@ local speedToggle = Instance.new("TextButton")
 speedToggle.Size = UDim2.new(0.8, 0, 0, 25)
 speedToggle.Position = UDim2.new(0.1, 0, 0.14, 0)
 speedToggle.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
-speedToggle.Text = "SPEED: OFF"
+speedToggle.Text = "SPEED: OFF [Q]"
 speedToggle.TextColor3 = Color3.fromRGB(255,255,255)
 speedToggle.Font = Enum.Font.GothamBold
-speedToggle.TextSize = 12
+speedToggle.TextSize = 11
 speedToggle.Parent = frame
 
 local baseToggle = Instance.new("TextButton")
 baseToggle.Size = UDim2.new(0.8, 0, 0, 25)
 baseToggle.Position = UDim2.new(0.1, 0, 0.25, 0)
 baseToggle.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
-baseToggle.Text = "BASE: OFF"
+baseToggle.Text = "BASE: OFF [E]"
 baseToggle.TextColor3 = Color3.fromRGB(255,255,255)
 baseToggle.Font = Enum.Font.GothamBold
-baseToggle.TextSize = 12
+baseToggle.TextSize = 11
 baseToggle.Parent = frame
 
 local batToggle = Instance.new("TextButton")
 batToggle.Size = UDim2.new(0.8, 0, 0, 25)
 batToggle.Position = UDim2.new(0.1, 0, 0.36, 0)
 batToggle.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
-batToggle.Text = "BAT: OFF"
+batToggle.Text = "BAT: OFF [R]"
 batToggle.TextColor3 = Color3.fromRGB(255,255,255)
 batToggle.Font = Enum.Font.GothamBold
-batToggle.TextSize = 12
+batToggle.TextSize = 11
 batToggle.Parent = frame
 
 local medusaToggle = Instance.new("TextButton")
 medusaToggle.Size = UDim2.new(0.8, 0, 0, 25)
 medusaToggle.Position = UDim2.new(0.1, 0, 0.47, 0)
 medusaToggle.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
-medusaToggle.Text = "MEDUSA: OFF"
+medusaToggle.Text = "MEDUSA: OFF [F]"
 medusaToggle.TextColor3 = Color3.fromRGB(255,255,255)
 medusaToggle.Font = Enum.Font.GothamBold
-medusaToggle.TextSize = 12
+medusaToggle.TextSize = 11
 medusaToggle.Parent = frame
 
 local auraToggle = Instance.new("TextButton")
 auraToggle.Size = UDim2.new(0.8, 0, 0, 25)
 auraToggle.Position = UDim2.new(0.1, 0, 0.58, 0)
 auraToggle.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
-auraToggle.Text = "AURA: OFF"
+auraToggle.Text = "AURA: OFF [G]"
 auraToggle.TextColor3 = Color3.fromRGB(255,255,255)
 auraToggle.Font = Enum.Font.GothamBold
-auraToggle.TextSize = 12
+auraToggle.TextSize = 11
 auraToggle.Parent = frame
 
 local medusaAuraToggle = Instance.new("TextButton")
 medusaAuraToggle.Size = UDim2.new(0.8, 0, 0, 25)
 medusaAuraToggle.Position = UDim2.new(0.1, 0, 0.69, 0)
 medusaAuraToggle.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
-medusaAuraToggle.Text = "M AURA: OFF"
+medusaAuraToggle.Text = "M AURA: OFF [H]"
 medusaAuraToggle.TextColor3 = Color3.fromRGB(255,255,255)
 medusaAuraToggle.Font = Enum.Font.GothamBold
-medusaAuraToggle.TextSize = 12
+medusaAuraToggle.TextSize = 11
 medusaAuraToggle.Parent = frame
 
 local fpsButton = Instance.new("TextButton")
@@ -233,7 +233,7 @@ local function createMedusaAura()
 	
 	medusaAura = Instance.new("Part")
 	medusaAura.Shape = Enum.PartType.Cylinder
-	medusaAura.Size = Vector3.new(0.5, 50, 50)
+	medusaAura.Size = Vector3.new(0.5, 30, 30)
 	medusaAura.Material = Enum.Material.Neon
 	medusaAura.Color = Color3.fromRGB(0, 255, 0)
 	medusaAura.Transparency = 0.8
@@ -272,6 +272,120 @@ local function activateMedusa()
 	end
 end
 
+local function toggleSpeed()
+	speedEnabled = not speedEnabled
+	baseEnabled = false
+	baseToggle.Text = "BASE: OFF [E]"
+	baseToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
+	
+	if speedEnabled then
+		speedToggle.Text = "SPEED: ON [Q]"
+		speedToggle.BackgroundColor3 = Color3.fromRGB(50,180,50)
+	else
+		speedToggle.Text = "SPEED: OFF [Q]"
+		speedToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
+	end
+end
+
+local function toggleBase()
+	baseEnabled = not baseEnabled
+	speedEnabled = false
+	speedToggle.Text = "SPEED: OFF [Q]"
+	speedToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
+	
+	if baseEnabled then
+		baseToggle.Text = "BASE: ON [E]"
+		baseToggle.BackgroundColor3 = Color3.fromRGB(50,180,50)
+	else
+		baseToggle.Text = "BASE: OFF [E]"
+		baseToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
+	end
+end
+
+local function toggleBat()
+	batEnabled = not batEnabled
+	
+	if batEnabled then
+		currentBat = equipBat()
+		if currentBat then
+			lastBatName = currentBat.Name:lower()
+			batToggle.Text = "BAT: ON [R]"
+		else
+			batToggle.Text = "BAT: NO BAT [R]"
+		end
+		batToggle.BackgroundColor3 = Color3.fromRGB(50,180,50)
+	else
+		batToggle.Text = "BAT: OFF [R]"
+		batToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
+		currentBat = nil
+		lastBatName = ""
+	end
+end
+
+local function toggleMedusa()
+	medusaEnabled = not medusaEnabled
+	
+	if medusaEnabled then
+		medusaToggle.Text = "MEDUSA: ON [F]"
+		medusaToggle.BackgroundColor3 = Color3.fromRGB(50,180,50)
+	else
+		medusaToggle.Text = "MEDUSA: OFF [F]"
+		medusaToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
+	end
+end
+
+local function toggleAura()
+	auraEnabled = not auraEnabled
+	
+	if auraEnabled then
+		createAura()
+		auraToggle.Text = "AURA: ON [G]"
+		auraToggle.BackgroundColor3 = Color3.fromRGB(50,180,50)
+	else
+		auraToggle.Text = "AURA: OFF [G]"
+		auraToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
+		if aura then
+			aura:Destroy()
+			aura = nil
+		end
+	end
+end
+
+local function toggleMedusaAura()
+	medusaAuraEnabled = not medusaAuraEnabled
+	
+	if medusaAuraEnabled then
+		createMedusaAura()
+		medusaAuraToggle.Text = "M AURA: ON [H]"
+		medusaAuraToggle.BackgroundColor3 = Color3.fromRGB(50,180,50)
+	else
+		medusaAuraToggle.Text = "M AURA: OFF [H]"
+		medusaAuraToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
+		if medusaAura then
+			medusaAura:Destroy()
+			medusaAura = nil
+		end
+	end
+end
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+	if gameProcessed then return end
+	
+	if input.KeyCode == Enum.KeyCode.Q then
+		toggleSpeed()
+	elseif input.KeyCode == Enum.KeyCode.E then
+		toggleBase()
+	elseif input.KeyCode == Enum.KeyCode.R then
+		toggleBat()
+	elseif input.KeyCode == Enum.KeyCode.F then
+		toggleMedusa()
+	elseif input.KeyCode == Enum.KeyCode.G then
+		toggleAura()
+	elseif input.KeyCode == Enum.KeyCode.H then
+		toggleMedusaAura()
+	end
+end)
+
 player.CharacterAdded:Connect(function(character)
 	character.DescendantAdded:Connect(function(descendant)
 		if descendant:IsA("Model") and descendant.Name:lower():find("medusa") then
@@ -281,7 +395,7 @@ player.CharacterAdded:Connect(function(character)
 	end)
 	if batEnabled then
 		batEnabled = false
-		batToggle.Text = "BAT: OFF"
+		batToggle.Text = "BAT: OFF [R]"
 		batToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
 		currentBat = nil
 		lastBatName = ""
@@ -373,101 +487,12 @@ RunService.Heartbeat:Connect(function()
 	end
 end)
 
-speedToggle.MouseButton1Click:Connect(function()
-	speedEnabled = not speedEnabled
-	baseEnabled = false
-	baseToggle.Text = "BASE: OFF"
-	baseToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
-	
-	if speedEnabled then
-		speedToggle.Text = "SPEED: ON"
-		speedToggle.BackgroundColor3 = Color3.fromRGB(50,180,50)
-	else
-		speedToggle.Text = "SPEED: OFF"
-		speedToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
-	end
-end)
-
-baseToggle.MouseButton1Click:Connect(function()
-	baseEnabled = not baseEnabled
-	speedEnabled = false
-	speedToggle.Text = "SPEED: OFF"
-	speedToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
-	
-	if baseEnabled then
-		baseToggle.Text = "BASE: ON"
-		baseToggle.BackgroundColor3 = Color3.fromRGB(50,180,50)
-	else
-		baseToggle.Text = "BASE: OFF"
-		baseToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
-	end
-end)
-
-batToggle.MouseButton1Click:Connect(function()
-	batEnabled = not batEnabled
-	
-	if batEnabled then
-		currentBat = equipBat()
-		if currentBat then
-			lastBatName = currentBat.Name:lower()
-			batToggle.Text = "BAT: ON"
-		else
-			batToggle.Text = "BAT: NO BAT"
-		end
-		batToggle.BackgroundColor3 = Color3.fromRGB(50,180,50)
-	else
-		batToggle.Text = "BAT: OFF"
-		batToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
-		currentBat = nil
-		lastBatName = ""
-	end
-end)
-
-medusaToggle.MouseButton1Click:Connect(function()
-	medusaEnabled = not medusaEnabled
-	
-	if medusaEnabled then
-		medusaToggle.Text = "MEDUSA: ON"
-		medusaToggle.BackgroundColor3 = Color3.fromRGB(50,180,50)
-	else
-		medusaToggle.Text = "MEDUSA: OFF"
-		medusaToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
-	end
-end)
-
-auraToggle.MouseButton1Click:Connect(function()
-	auraEnabled = not auraEnabled
-	
-	if auraEnabled then
-		createAura()
-		auraToggle.Text = "AURA: ON"
-		auraToggle.BackgroundColor3 = Color3.fromRGB(50,180,50)
-	else
-		auraToggle.Text = "AURA: OFF"
-		auraToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
-		if aura then
-			aura:Destroy()
-			aura = nil
-		end
-	end
-end)
-
-medusaAuraToggle.MouseButton1Click:Connect(function()
-	medusaAuraEnabled = not medusaAuraEnabled
-	
-	if medusaAuraEnabled then
-		createMedusaAura()
-		medusaAuraToggle.Text = "M AURA: ON"
-		medusaAuraToggle.BackgroundColor3 = Color3.fromRGB(50,180,50)
-	else
-		medusaAuraToggle.Text = "M AURA: OFF"
-		medusaAuraToggle.BackgroundColor3 = Color3.fromRGB(180,50,50)
-		if medusaAura then
-			medusaAura:Destroy()
-			medusaAura = nil
-		end
-	end
-end)
+speedToggle.MouseButton1Click:Connect(toggleSpeed)
+baseToggle.MouseButton1Click:Connect(toggleBase)
+batToggle.MouseButton1Click:Connect(toggleBat)
+medusaToggle.MouseButton1Click:Connect(toggleMedusa)
+auraToggle.MouseButton1Click:Connect(toggleAura)
+medusaAuraToggle.MouseButton1Click:Connect(toggleMedusaAura)
 
 fpsButton.MouseButton1Click:Connect(function()
 	for _, p in pairs(Players:GetPlayers()) do
